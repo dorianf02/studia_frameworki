@@ -1,24 +1,62 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState } from 'react';
+import reactLogo from './assets/react.svg';
+import viteLogo from '/vite.svg';
 //import './App.css'
 import {data} from './data/module-data.js';
 import RootLayout from './layouts/RootLayout.jsx';
 import {Route, Routes} from 'react-router-dom';
+import HomePage from './pages/HomePage.jsx';
 import Lab1Page from './pages/Lab1Page.jsx';
+import Lab2Page from './pages/Lab2Page.jsx';
 import PeoplePage from "./pages/PeoplePage.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
 
 function App() {
   const [count, setCount] = useState(0)
 
+  const menuItems = [
+    {
+      id: 1, 
+      label: "Home", 
+      url: "/", 
+      urlPattern: "/", 
+      element: <HomePage/>
+    },
+    {
+      id: 2, 
+      label: "Laboratorium 1", 
+      url: "/lab1", 
+      urlPattern: "/lab1", 
+      element: <Lab1Page/>
+    },
+    {
+      id: 3, 
+      label: "Laboratorium 2", 
+      url: "/lab2/1", 
+      urlPattern: "/lab2/:id", 
+      element: <Lab2Page/>
+    },
+    {
+      id: 4, 
+      label: "People Page", 
+      url: "/people/:id", 
+      urlPattern: "/people/:id", 
+      element: <PeoplePage/>
+    },
+    {
+      id: 5, 
+      url: "*", 
+      urlPattern: "*", 
+      element: <NotFoundPage/>
+    }
+  ]
+
   return (
-    <RootLayout>
+    <RootLayout items={menuItems}>
       <Routes>
-        <Route path='/lab1' element={<Lab1Page/>}/>
-        <Route path='/lab2' element={<h1>Laboratorium 2 </h1>}/>
-        <Route path='/people/:id' element={<PeoplePage/>}/>
-        <Route path='*' element={<NotFoundPage/>}/>
+        {menuItems.map((item) => (
+          <Route key={item.id} path={item.urlPattern} element={item.element} />
+        ))}
       </Routes>
     </RootLayout>
     // <div>
